@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_messages.utils import get_user_model
 User = get_user_model()
 
+from mfg.models import Route
 
 class MessageManager(models.Manager):
 
@@ -59,6 +60,9 @@ class Message(models.Model):
     sender_deleted_at = models.DateTimeField(_("Sender deleted at"), null=True, blank=True)
     recipient_deleted_at = models.DateTimeField(_("Recipient deleted at"), null=True, blank=True)
     
+    route =  models.ForeignKey(Route,null=True,blank=True)
+    parent =  models.ForeignKey("self",null=True,blank=True, related_name="child")
+
     objects = MessageManager()
     
     def new(self):
